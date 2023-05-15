@@ -1,0 +1,6 @@
+imprint_data: "../data/img_all_val.ffcv"
+predict_data: "../data/img_all_val.ffcv"
+imprint_ncls: 1000
+
+
+ckpt_dir: "../checkpoints/imagenet_all"
