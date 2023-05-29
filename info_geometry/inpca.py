@@ -1,9 +1,11 @@
 import pickle
 import os
 import numpy as np
+import pandas as pd
 
 from tqdm import tqdm
 from utils.read import read_preds
+from utils.plot import plot_inpca
 
 
 def compute_inpca(mat):
@@ -163,5 +165,40 @@ def imagenet_inpca():
         pickle.dump(obj, fp)
 
 
+def imagenet_plot_inpca():
+
+    fname = "../predictions/embedding/imagenet_inpca.pkl"
+    with open(fname , "rb") as fp:
+        obj = pickle.load(fp)
+    embed = obj['inpca_embedding']
+
+    # Crete table of values
+    name = {0: "Imagenet all",
+            1: "Imagenet Random subset",
+            2: "Vertebrates",
+            3: "Instrumentality"}
+
+    cols = {0: 'lightcoral',
+            1: 'pink', 
+            2: '#66c2a5',
+            3: '#3288bd'}
+
+    tab = []
+    for i in range(len(embed)):
+        for s in range(embed[i].shape[0]):
+            for t in range(embed[i].shape[1]):
+                x = list(embed[i][s, t, :3])
+                x = x + [t, name[i], s]
+                tab.append(x)
+
+    tab = pd.DataFrame(tab)
+    tab.columns = ['PC 1', 'PC 2', 'PC 3', 'Epoch', "Model", "Seed"]
+    tab.head()
+
+    fname = "../plots/imagenet/inpca.html"
+    plot_inpca(tab, name, cols, fname)
+
+
 if __name__ == '__main__':
-    imagenet_inpca()
+    # imagenet_inpca()
+    imagenet_plot_inpca()
