@@ -16,8 +16,8 @@ def compute_inpca(mat):
         mat:
             np.array of shape (num_models x samples x classes)
     Return:
-        (singular_val, imaginary):
-            Singular values and indicatory if singular value is imaginary
+        (eigenval, imaginary):
+            Eigenvalues and indicator if coordinate is imaginary
         projection:
             The projections onto each eigen-vector scaled by singular values.
             projection[:, i] gives the ith vector.
@@ -34,7 +34,6 @@ def compute_inpca(mat):
 
     # Normalization
     Dmat = Dmat / dim
-    Dmat = Dmat / 2
 
     ldim = Dmat.shape[0]
     Pmat = np.eye(ldim) - 1.0/ ldim
@@ -55,7 +54,7 @@ def compute_inpca(mat):
     imaginary = np.array(eigenval < 0.0)
     projection = eigenvec * singular_val.reshape(1, -1)
 
-    return (singular_val, imaginary), projection
+    return (eigenval, imaginary), projection
 
 
 def compute_inpca_h5(mats, batch_size=1000):
@@ -72,8 +71,8 @@ def compute_inpca_h5(mats, batch_size=1000):
         batch_size:
             Number of samples to handle at the same time
     Return:
-        (singular_val, imaginary):
-            Singular values and indicatory if singular value is imaginary
+        (eigenval, imaginary):
+            Eigenvalues and indicator if coordinate is imaginary
         projection:
             The InPCA embedding vector of shape [num-models x seed x checkpoint x embed dim]
 
@@ -94,10 +93,12 @@ def compute_inpca_h5(mats, batch_size=1000):
         mat1 = np.concatenate(mat, axis=1)
         mat2 = np.transpose(mat1, axes=[0, 2, 1])
 
-        dcoef = np.clip(mat1 @ mat2, a_min=1e-6, a_max=None)
-
+        dcoef = np.clip(mat1 @ mat2, a_min=1e-9, a_max=None)
         Dmat += -np.log(dcoef).sum(0)
+
         del mat, mat1, mat2, dcoef
+
+    Dmat = Dmat / nsamples
     
     # Compute eigen-decomposition of double-centered distance matrix
     ndim = len(Dmat)
@@ -156,7 +157,7 @@ def imagenet_inpca():
     fdir = "/".join(fname.split("/")[:-1])
 
     obj = {
-        "singular_value": eigen[0],
+        "eigen_values": eigen[0],
         "imaginary": eigen[1],
         "inpca_embedding": embedding
     }
