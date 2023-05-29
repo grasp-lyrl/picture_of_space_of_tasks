@@ -2,7 +2,7 @@
 
 The ImageNet models were trained using a modified version of the [FFCV ImageNet training scripts](https://github.com/libffcv/ffcv-imagenet). A single training run (1 dataset and 1 seed) takes about 4 hours using 4 Nvidia A10G GPUs.
 
-**Step 1**: Download the [ImageNet-1k](http://www.image-net.org/) dataset and place it into `./data`. The directory structure should look:
+**Step 1**: Download the [ImageNet-1k](http://www.image-net.org/) dataset and place it into `./data`. The directory structure should look like:
 ```bash
 .
 └── supervised_imagenet
@@ -13,7 +13,7 @@ The ImageNet models were trained using a modified version of the [FFCV ImageNet 
 ```
 
 
-**Step 2**: Train models on tasks created from ImageNet. The code to train most tasks are commented out in `write_imagenet.sh` and `train_imagenet.sh`. Note that this requires a lot of storage (around 1 TB) since it creates a different FFCV object for each task. You can make do with less disk storage by deleting the FFCV objects after training
+**Step 2**: Train models on tasks created from ImageNet. The code to train most tasks are commented out in `write_imagenet.sh` and `train_imagenet.sh`. Note that this requires a lot of storage (around 1 TB) since it creates a different FFCV object for each task. You can make do with less disk storage by deleting the FFCV objects after training.
 
 
 ```bash

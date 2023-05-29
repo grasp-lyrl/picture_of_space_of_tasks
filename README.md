@@ -27,11 +27,9 @@ micromamba activate picture
 
 ## Usage
 
-**Step 1: Generate network trajectories**: We first train networks and store predictions at different points on the training trajectory. 
+**Step 1**: Generate network trajectories. We first train networks and store predictions at different points on the training trajectory. The folder [supervised_imagenet](./supervised_imagenet), describes how to train a network on ImageNet. You can skip this step and download the ImageNet trajectories from [this link](https://mega.nz/folder/lAU2EBTT#6NXdRnL2RUoZL06e2baP7A); Move the downloaded files to the `predictions/` folder.
 
-The folder [supervised_imagenet](./supervised_imagenet), describes how to train a network on ImageNet. You can skip this step and download the ImageNet trajectories from [this link](https://mega.nz/folder/lAU2EBTT#6NXdRnL2RUoZL06e2baP7A); Move the downloaded files to the `predictions/` folder.
-
-**Step 2: Analyze the trajectories**: The folder [info_geometry](./info_geometry) contains code to analyze the generated trajectories.
+**Step 2**: Analyze the trajectories. The folder [info_geometry](./info_geometry) contains code to generate InPCA embeddings and compare different trajectories.
 
 ```bash
 cd info_geometry
