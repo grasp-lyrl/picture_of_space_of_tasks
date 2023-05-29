@@ -21,5 +21,3 @@ def store_imagenet_val_labels():
 
 if __name__ == '__main__':
     store_imagenet_val_labels()
-
-

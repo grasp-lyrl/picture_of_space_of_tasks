@@ -201,5 +201,5 @@ def imagenet_plot_inpca():
 
 
 if __name__ == '__main__':
-    # imagenet_inpca()
+    imagenet_inpca()
     imagenet_plot_inpca()
