@@ -7,7 +7,7 @@ datasets and using different methods. We study phenomena relating to
 supervised, meta- and contrastive learning and fine-tuning by studying
 networks in prediction space. 
 
-**Understanding the techniques from Information geometry**: A good place to start would be [this jupyter notebook](https://colab.research.google.com/github/grasp-lyrl/picture_of_space_of_tasks/blob/main/picture_of_tasks_tutorial.ipynb). It contains a brief overview of the techniques and only takes a few minutes to run on Google Colab.
+**Understanding the techniques from information geometry**: A good place to start would be [this jupyter notebook](https://colab.research.google.com/github/grasp-lyrl/picture_of_space_of_tasks/blob/main/picture_of_tasks_tutorial.ipynb). It contains a brief overview of the techniques and only takes a few minutes to run on Google Colab.
 
 Our techniques help us build a qualitative and quantitative picture of the space of tasks. For example in the below figure, we plot the visual representations learnt by networks trained on different subsets of ImageNet. Interestingly, the trajectories of the representations resemble the Wordnet phylogenetic tree which was built using only natural language-based semantics. 
 
