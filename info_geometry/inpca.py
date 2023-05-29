@@ -91,7 +91,7 @@ def compute_inpca_h5(mats, batch_size=1000):
         mat1 = np.concatenate(mat, axis=1)
         mat2 = np.transpose(mat1, axes=[0, 2, 1])
 
-        dcoef = np.clip(mat1 @ mat2, a_min=1e-9, a_max=None)
+        dcoef = np.clip(mat1 @ mat2, a_min=1e-6, a_max=None)
         Dmat += -np.log(dcoef).sum(0)
 
         del mat, mat1, mat2, dcoef
