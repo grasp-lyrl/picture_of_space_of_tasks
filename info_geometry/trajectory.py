@@ -270,8 +270,7 @@ def imagenet_trajectory_lengths():
     print_lengths(len_info, dnames)
 
 
-
 if __name__ == '__main__':
-    # imagenet_reindex()
+    imagenet_reindex()
     imagenet_compare_trajectory()
-    # imagenet_trajectory_lengths()
+    imagenet_trajectory_lengths()
