@@ -1,5 +1,6 @@
 __pycache__/
 checkpoints/
 predictions/imagenet_*
+.ipynb_checkpoints/
 *.ffcv
 *.pyc
