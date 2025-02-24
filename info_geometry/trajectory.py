@@ -3,9 +3,8 @@ import pickle
 import os
 
 from tqdm import tqdm
-from functools import partial
 from scipy import optimize
-from utils.read import read_preds, write_pred, read_progress
+from utils.read import read_preds, read_progress
 from utils.read import imagenet_start_end
 
 from utils.plot import print_lengths, plot_trajectory_distances
@@ -27,26 +26,26 @@ def dbhat(pr0, pr1):
 
 class Geodesic():
     @staticmethod
-    def interpolate(start, end, t):
+    def interpolate(sqrt_start, sqrt_end, t):
         """
         - Get a point on the geodesic joining "start" and "end". 
         - The geodesic is the same as the geodesic on the surface of a sphere
           which is the great cirlce equation
         """
-        cospq = (start * end).sum(-1, keepdims=True)
+        cospq = (sqrt_start * sqrt_end).sum(-1, keepdims=True)
         dg = np.arccos(np.clip(cospq, 0, 1))
 
         # Use masks, incase, start and end are identical
         mask = (dg <= 1e-6).reshape(-1)
-        gamma = np.array(start)
-        gamma[~mask] = np.sin((1-t)* dg[~mask]) * start[~mask] + \
-                       np.sin(t    * dg[~mask]) * end[~mask]
+        gamma = np.array(sqrt_start)
+        gamma[~mask] = np.sin((1-t)* dg[~mask]) * sqrt_start[~mask] + \
+                       np.sin(t    * dg[~mask]) * sqrt_end[~mask]
         gamma[~mask] = gamma[~mask] / np.sin(dg[~mask])
 
         return gamma
 
     @staticmethod
-    def project(pred, start, end):
+    def project(pred, sqrt_start, sqrt_end):
         """
         - Computes the progress (λ) for each model in the trajectory.
         - Progress is a scalar that belongs to the set [0, 1].
@@ -54,7 +53,7 @@ class Geodesic():
           joining 'start' and 'end'.
         """
         def dB(t):
-            vec = Geodesic.interpolate(start, end, t)
+            vec = Geodesic.interpolate(sqrt_start, sqrt_end, t)
             dist = dbhat(vec, pred)
             return dist
 
@@ -73,7 +72,7 @@ class Geodesic():
 
             preds = np.argmax(cur_pr, axis=1)
             prog = Geodesic.project(
-                [np.sqrt(cur_pr)], p_0, p_star)
+                np.sqrt(cur_pr), p_0, p_star)
 
             acc = np.sum(preds == targets) / len(targets)
             prog_list.append(prog)
@@ -98,7 +97,7 @@ class Trajectory():
             # Find first λ_true (from left) bigger than λ
             while ind < max_ind:
                 if λ_true[ind] > λ:
-                    break;
+                    break
                 ind += 1
 
             # Draw sample
